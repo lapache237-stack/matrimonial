@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Site Matrimonial 3D Professionnel</title>
+  <style>
+    /* Reset & Base */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+    }
+    body {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      perspective: 1200px;
+    }
+    nav {
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      transform-style: preserve-3d;
+      perspective: 800px;
+    }
+    nav button {
+      background: linear-gradient(145deg, #536976, #292e49);
+      border-radius: 35px;
+      border: 2px solid #4aa8ff;
+      box-shadow: inset 0 0 8px #4aa8ff, 0 0 20px #4aa8ffaa;
+      color: #aad4ff;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 14px 28px;
+      transition: 
+        background 0.4s ease,
+        color 0.4s ease,
+        box-shadow 0.4s ease,
+        transform 0.4s cubic-bezier(.175,.885,.32,1.275);
+      transform-style: preserve-3d;
+      position: relative;
+      overflow: visible;
+    }
+    nav button::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -8px; left: -8px; bottom: -8px; right: -8px;
+      border-radius: 45px;
+      background: linear-gradient(45deg, #56c3ff 0%, #004a9f 100%);
+      filter: blur(10px);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      transform-style: preserve-3d;
+    }
+    nav button:hover::before,
+    nav button:focus::before,
+    nav button.active::before {
+      opacity: 1;
+    }
+    nav button:hover,
+    nav button:focus {
+      color: white;
+      background: linear-gradient(135deg, #4aa8ff, #1c3ea5);
+      box-shadow: 0 0 25px #4aa8ff, inset 0 0 6px #66bbff;
+      transform: translateZ(15px) rotateX(5deg);
+      outline: none;
+    }
+    nav button.active {
+      background: linear-gradient(135deg, #6db3ff, #1b307b);
+      color: #d8eaff;
+      box-shadow: 0 0 28px #66b3ffaa, inset 0 0 8px #99ccff;
+      cursor: default;
+      transform: translateZ(20px);
+      user-select: none;
+    }
+
+    main {
+      width: 100%;
+      max-width: 520px;
+      background: linear-gradient(145deg, #132c4c, #1f4178);
+      border-radius: 18px;
+      padding: 40px 35px 50px;
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.7),
+        inset 0 0 25px #2a72ff55;
+      transform-style: preserve-3d;
+      transition: box-shadow 0.4s ease;
+      transform-origin: center center;
+      /* subtle slow rotate */
+      animation: gentleRotate 15s ease-in-out infinite alternate;
+    }
+    main:hover {
+      box-shadow:
+        0 14px 50px rgba(0, 0, 0, 0.85),
+        inset 0 0 40px #4aadff88;
+      animation-play-state: paused;
+      transform: rotateX(3deg) rotateY(3deg) scale(1.02);
+    }
+
+    h1, h2 {
+      margin-bottom: 24px;
+      color: #aad4ff;
+      text-align: center;
+      text-shadow: 0 0 10px #4aa8ffaa;
+      letter-spacing: 1px;
+    }
+    ul {
+      padding-left: 18px;
+      margin-bottom: 26px;
+      color: #acc6e2cc;
+    }
+    ul li {
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+      line-height: 1.4;
+    }
+    p {
+      margin-bottom: 18px;
+      color: #bed2f7cc;
+      line-height: 1.5;
+      font-size: 1rem;
+      text-shadow: 0 0 5px #317cff55;
+    }
+
+    /* Sections */
+    section {
+      display: none;
+      animation: fadeInUp 0.8s cubic-bezier(.165,.84,.44,1) forwards;
+      transform-style: preserve-3d;
+    }
+    section.active {
+      display: block;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      transform-style: preserve-3d;
+    }
+    label {
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #91b5ffdd;
+      text-shadow: 0 0 8px #4aa8ff88;
+      transform-style: preserve-3d;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select {
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      border: 2px solid #3c6ac9cc;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      color: #dbe9ff;
+      background: rgba(30, 56, 114, 0.38);
+      box-shadow:
+        inset 0 0 10px #1e3872a0;
+      transition: 
+        border-color 0.3s ease,
+        background-color 0.35s ease,
+        color 0.3s ease;
+      transform-style: preserve-3d;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #4aa8ff;
+      background: rgba(34, 75, 130, 0.8);
+      color: #e9f4ff;
+      box-shadow:
+        inset 0 0 14px #4a90ffcc,
+        0 0 12px #4a90ff55;
+    }
+    button[type="submit"],
+    button#payBtn,
+    button#sendWhatsBtn {
+      background: linear-gradient(145deg, #4aa8ff, #2971c7);
+      border: none;
+      color: white;
+      font-weight: 800;
+      padding: 16px 0;
+      border-radius: 45px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+      box-shadow:
+        0 6px 18px #4aa8ffcc,
+        inset 0 -3px 8px #1e3b85;
+      transition: 
+        background 0.4s ease,
+        box-shadow 0.4s ease,
+        transform 0.3s cubic-bezier(.175,.885,.42,1.275);
+      transform-style: preserve-3d;
+      user-select: none;
+    }
+    button[type="submit"]:hover,
+    button#payBtn:hover,
+    button#sendWhatsBtn:hover,
+    button[type="submit"]:focus,
+    button#payBtn:focus,
+    button#sendWhatsBtn:focus {
+      background: linear-gradient(145deg, #99caff, #3c72d1);
+      box-shadow:
+        0 8px 22px #66a9ffdd,
+        inset 0 -4px 12px #3270cf;
+      outline: none;
+      transform: translateZ(12px) rotateX(4deg);
+    }
+    button[type="submit"]:active,
+    button#payBtn:active,
+    button#sendWhatsBtn:active {
+      transform: translateZ(4px) rotateX(1deg);
+      box-shadow:
+        0 4px 14px #4a8de0cc,
+        inset 0 -2px 6px #2d5db0;
+    }
+
+    #formMsg, #payMsg {
+      font-weight: 700;
+      margin-top: -16px;
+      min-height: 22px;
+      text-align: center;
+      letter-spacing: 0.02em;
+      transform-style: preserve-3d;
+    }
+    #formMsg {
+      color: #ff6b6b;
+      text-shadow: 0 0 6px #ff4242cc;
+      margin-bottom: 24px;
+    }
+    #payMsg {
+      color: #62d68a;
+      text-shadow: 0 0 10px #59ba7ecc;
+      margin-bottom: 28px;
+    }
+
+    .success {
+      color: #44de93;
+      font-weight: 900;
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 32px;
+      text-shadow: 0 0 18px #40da7dcc;
+      transform-style: preserve-3d;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: -8px;
+      margin-bottom: 32px;
+      text-shadow: 0 0 5px #3274e8cc;
+    }
+    ul li {
+      position: relative;
+      font-size: 1.07rem;
+      color: #9ec7ffcc;
+      margin-bottom: 14px;
+      padding-left: 26px;
+      font-weight: 600;
+    }
+    ul li::before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      left: 6px;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle at center, #66baff 50%, #1c3e9f 85%);
+      border-radius: 50%;
+      box-shadow:
+        0 0 4px #4a90ff88;
+      transform-style: preserve-3d;
+    }
+
+    /* Responsive */
+    @media (max-width: 560px) {
+      body {
+        padding: 200px 15px 40px;
+      }
+      main {
+        max-width: 100%;
+        padding: 35px 25px 45px;
+      }
+      nav button {
+        padding: 12px 22px;
+        font-size: 1rem;
+      }
+    }
+
+    /* Animations */
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px) translateZ(0);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+      }
+    }
+    @keyframes gentleRotate {
+      0% {
+        transform: rotateX(1deg) rotateY(-1deg);
+      }
+      50% {
+        transform: rotateX(-1deg) rotateY(1deg);
+      }
+      100% {
+        transform: rotateX(1deg) rotateY(-1deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <button class="active" id="btn-home" type="button" aria-pressed="true">Accueil</button>
+    <button id="btn-register" type="button" aria-pressed="false">Inscription</button>
+  </nav>
+
+  <main role="main" aria-live="polite" aria-atomic="true" aria-relevant="additions removals">
+    <section id="home" class="active" aria-label="Page d'accueil">
+      <h1>Bienvenue sur le Site Matrimonial</h1>
+      <p>Nous offrons une plateforme sûre et efficace pour vous aider à trouver votre partenaire idéal.</p>
+      <p><strong>Services proposés :</strong></p>
+      <ul>
+        <li>Inscription personnalisée</li>
+        <li>Validation sécurisée du paiement</li>
+        <li>Confirmation rapide de votre inscription</li>
+        <li>Contact facilité via WhatsApp</li>
+      </ul>
+    </section>
+
+    <section id="register" aria-label="Formulaire d'inscription">
+      <h2>Formulaire d'inscription</h2>
+      <form id="registrationForm" novalidate>
+        <label for="nom">Nom complet *</label>
+        <input type="text" id="nom" name="nom" placeholder="Ex: Jean Dupont" required autocomplete="name" />
+
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" placeholder="exemple@mail.com" required autocomplete="email" />
+
+        <label for="age">Âge *</label>
+        <input type="number" id="age" name="age" min="18" max="120" placeholder="18+" required />
+
+        <label for="genre">Genre *</label>
+        <select id="genre" name="genre" required>
+          <option value="" disabled selected>--Choisir--</option>
+          <option value="Homme">Homme</option>
+          <option value="Femme">Femme</option>
+          <option value="Autre">Autre</option>
+        </select>
+
+        <label for="ville">Ville *</label>
+        <input type="text" id="ville" name="ville" placeholder="Ex: Paris" required autocomplete="address-level2" />
+
+        <p id="formMsg" aria-live="polite"></p>
+
+        <button type="submit" aria-label="Valider l'inscription">Valider l'inscription</button>
+      </form>
+    </section>
+
+    <section id="payment" aria-label="Validation du paiement" >
+      <h2>Validation du paiement</h2>
+      <p>Le montant de l'inscription est de <strong>50 €</strong>.</p>
+      <button id="payBtn" type="button" aria-label="Simuler paiement">Simuler paiement</button>
+      <p id="payMsg" aria-live="polite"></p>
+    </section>
+
+    <section id="confirmation" aria-label="Confirmation inscription">
+      <h2>Confirmation</h2>
+      <p class="success">Votre inscription est validée avec succès !</p>
+      <button id="sendWhatsBtn" type="button" aria-label="Envoyer les informations sur WhatsApp">Envoyer infos sur WhatsApp</button>
+    </section>
+  </main>
+
+  <script>
+    const sections = ['home', 'register', 'payment', 'confirmation'];
+    const btnHome = document.getElementById('btn-home');
+    const btnRegister = document.getElementById('btn-register');
+    let formData = {};
+
+    // Navigation & UI
+    function showSection(id) {
+      sections.forEach(sec => {
+        const el = document.getElementById(sec);
+        el.classList.toggle('active', sec === id);
+      });
+
+      btnHome.classList.toggle('active', id === 'home');
+      btnRegister.classList.toggle('active', id === 'register');
+
+      btnHome.setAttribute('aria-pressed', id === 'home' ? 'true' : 'false');
+      btnRegister.setAttribute('aria-pressed', id === 'register' ? 'true' : 'false');
+
+      // Clear messages
+      document.getElementById('formMsg').textContent = '';
+      document.getElementById('payMsg').textContent = '';
+    }
+
+    btnHome.addEventListener('click', () => showSection('home'));
+    btnRegister.addEventListener('click', () => showSection('register'));
+
+    // Form handling
+    const form = document.getElementById('registrationForm');
+    const formMsg = document.getElementById('formMsg');
+    const payMsg = document.getElementById('payMsg');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Collect & validate manually for extra control
+      const nom = this.nom.value.trim();
+      const email = this.email.value.trim();
+      const age = Number(this.age.value);
+      const genre = this.genre.value;
+      const ville = this.ville.value.trim();
+
+      if(!nom || !email || !age || !genre || !ville) {
+        formMsg.textContent = "Tous les champs marqués par * sont obligatoires.";
+        return;
+      }
+      if(age < 18 || age > 120) {
+        formMsg.textContent = "L'âge doit être compris entre 18 et 120 ans.";
+        return;
+      }
+      // Email pattern simple check
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRegex.test(email)) {
+        formMsg.textContent = "Veuillez saisir une adresse email valide.";
+        return;
+      }
+
+      formMsg.textContent = "";
+
+      formData = {nom, email, age, genre, ville};
+
+      showSection('payment');
+    });
+
+    // Payment simulation
+    document.getElementById('payBtn').addEventListener('click', () => {
+      payMsg.textContent = "Paiement accepté avec succès ! ✅";
+      payMsg.style.color = '#62d68a';
+
+      // Disable button to avoid re-click
+      document.getElementById('payBtn').disabled = true;
+
+      setTimeout(() => {
+        showSection('confirmation');
+        // reset payment button
+        document.getElementById('payBtn').disabled = false;
+        payMsg.textContent = '';
+      }, 1800);
+    });
+
+    // WhatsApp send info
+    document.getElementById('sendWhatsBtn').addEventListener('click', () => {
+      if(!formData.nom){
+        alert("Veuillez d'abord compléter et valider le formulaire.");
+        showSection('register');
+        return;
+      }
+      const text =
+        `Bonjour,%0AVoici mes informations pour l'inscription:%0A` +
+        `Nom: ${encodeURIComponent(formData.nom)}%0A` +
+        `Email: ${encodeURIComponent(formData.email)}%0A` +
+        `Âge: ${encodeURIComponent(formData.age)}%0A` +
+        `Genre: ${encodeURIComponent(formData.genre)}%0A` +
+        `Ville: ${encodeURIComponent(formData.ville)}`;
+
+      // Remplace avec ton numéro WhatsApp (code pays, sans +, sans espaces)
+      const myNumber = "+237652485475";  // ex: "33612345678" pour France
+
+      const waUrl = `https://wa.me/${myNumber}?text=${text}`;
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    });
+
+    // On load, display home
+    showSection('home');
+  </script>
+</body>
+</html>
