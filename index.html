@@ -42,7 +42,7 @@
       font-weight: 700;
       font-size: 1.05rem;
       padding: 14px 28px;
-      transition: 
+      transition:
         background 0.4s ease,
         color 0.4s ease,
         box-shadow 0.4s ease,
@@ -97,7 +97,6 @@
       transform-style: preserve-3d;
       transition: box-shadow 0.4s ease;
       transform-origin: center center;
-      /* subtle slow rotate */
       animation: gentleRotate 15s ease-in-out infinite alternate;
     }
     main:hover {
@@ -133,7 +132,6 @@
       text-shadow: 0 0 5px #317cff55;
     }
 
-    /* Sections */
     section {
       display: none;
       animation: fadeInUp 0.8s cubic-bezier(.165,.84,.44,1) forwards;
@@ -143,7 +141,6 @@
       display: block;
     }
 
-    /* Form */
     form {
       display: flex;
       flex-direction: column;
@@ -157,9 +154,9 @@
       transform-style: preserve-3d;
     }
     input[type="text"],
-    input[type="email"],
     input[type="number"],
-    select {
+    select,
+    input[type="file"] {
       padding: 14px 18px;
       margin-bottom: 28px;
       border: 2px solid #3c6ac9cc;
@@ -169,16 +166,16 @@
       background: rgba(30, 56, 114, 0.38);
       box-shadow:
         inset 0 0 10px #1e3872a0;
-      transition: 
+      transition:
         border-color 0.3s ease,
         background-color 0.35s ease,
         color 0.3s ease;
       transform-style: preserve-3d;
     }
     input[type="text"]:focus,
-    input[type="email"]:focus,
     input[type="number"]:focus,
-    select:focus {
+    select:focus,
+    input[type="file"]:focus {
       outline: none;
       border-color: #4aa8ff;
       background: rgba(34, 75, 130, 0.8);
@@ -188,7 +185,6 @@
         0 0 12px #4a90ff55;
     }
     button[type="submit"],
-    button#payBtn,
     button#sendWhatsBtn {
       background: linear-gradient(145deg, #4aa8ff, #2971c7);
       border: none;
@@ -202,7 +198,7 @@
       box-shadow:
         0 6px 18px #4aa8ffcc,
         inset 0 -3px 8px #1e3b85;
-      transition: 
+      transition:
         background 0.4s ease,
         box-shadow 0.4s ease,
         transform 0.3s cubic-bezier(.175,.885,.42,1.275);
@@ -210,10 +206,8 @@
       user-select: none;
     }
     button[type="submit"]:hover,
-    button#payBtn:hover,
     button#sendWhatsBtn:hover,
     button[type="submit"]:focus,
-    button#payBtn:focus,
     button#sendWhatsBtn:focus {
       background: linear-gradient(145deg, #99caff, #3c72d1);
       box-shadow:
@@ -223,7 +217,6 @@
       transform: translateZ(12px) rotateX(4deg);
     }
     button[type="submit"]:active,
-    button#payBtn:active,
     button#sendWhatsBtn:active {
       transform: translateZ(4px) rotateX(1deg);
       box-shadow:
@@ -231,81 +224,126 @@
         inset 0 -2px 6px #2d5db0;
     }
 
-    #formMsg, #payMsg {
+    #formMsg {
       font-weight: 700;
       margin-top: -16px;
       min-height: 22px;
       text-align: center;
       letter-spacing: 0.02em;
-      transform-style: preserve-3d;
-    }
-    #formMsg {
       color: #ff6b6b;
       text-shadow: 0 0 6px #ff4242cc;
       margin-bottom: 24px;
-    }
-    #payMsg {
-      color: #62d68a;
-      text-shadow: 0 0 10px #59ba7ecc;
-      margin-bottom: 28px;
-    }
-
-    .success {
-      color: #44de93;
-      font-weight: 900;
-      font-size: 1.3rem;
-      text-align: center;
-      margin-bottom: 32px;
-      text-shadow: 0 0 18px #40da7dcc;
       transform-style: preserve-3d;
     }
 
-    ul {
-      list-style: none;
-      padding-left: 0;
-      margin-top: -8px;
-      margin-bottom: 32px;
-      text-shadow: 0 0 5px #3274e8cc;
-    }
-    ul li {
+    #card {
       position: relative;
-      font-size: 1.07rem;
-      color: #9ec7ffcc;
-      margin-bottom: 14px;
-      padding-left: 26px;
-      font-weight: 600;
+      width: 360px;
+      height: 220px;
+      background: linear-gradient(135deg, #e6f0ff, #4a90ff);
+      border-radius: 18px;
+      color: #1b2a5e;
+      font-family: 'Arial Black', Arial, sans-serif;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      padding: 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+      user-select: none;
+      margin: 20px auto 0;
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
     }
-    ul li::before {
-      content: "";
+
+    #clientPhoto {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+      display: none;
+    }
+
+    #infoContainer {
+      flex: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    #flagImg {
       position: absolute;
-      top: 9px;
-      left: 6px;
-      width: 12px;
-      height: 12px;
-      background: radial-gradient(circle at center, #66baff 50%, #1c3e9f 85%);
-      border-radius: 50%;
-      box-shadow:
-        0 0 4px #4a90ff88;
-      transform-style: preserve-3d;
+      top: 20px;
+      right: 20px;
+      width: 60px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.53);
+    }
+
+    #agencyLogo {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #14386a;
+      text-shadow: 0 0 6px #4a90ffbb;
+      user-select: none;
+    }
+
+    #qr-code {
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      width: 80px;
+      height: 80px;
+      border: 2px solid #1552db;
+      border-radius: 10px;
+      background: white;
     }
 
     /* Responsive */
     @media (max-width: 560px) {
-      body {
-        padding: 200px 15px 40px;
+      #card {
+        width: 90vw;
+        height: auto;
+        flex-wrap: wrap;
+        padding-bottom: 110px;
       }
-      main {
-        max-width: 100%;
-        padding: 35px 25px 45px;
+      #clientPhoto {
+        margin: 0 auto 15px;
+        display: block !important;
       }
-      nav button {
-        padding: 12px 22px;
-        font-size: 1rem;
+      #infoContainer {
+        width: 100%;
+      }
+      #qr-code {
+        position: relative;
+        display: block;
+        margin: 20px auto 0;
+        border: none;
+        background: none;
+        width: 120px;
+        height: 120px;
+      }
+      #flagImg {
+        position: relative;
+        display: block;
+        margin: 10px auto 10px;
+        width: 100px;
+        height: 60px;
+      }
+      #agencyLogo {
+        position: relative;
+        margin: 10px auto 0;
+        font-size: 14px;
+        text-align: center;
       }
     }
 
     /* Animations */
-
     @keyframes fadeInUp {
       0% {
         opacity: 0;
@@ -328,6 +366,8 @@
       }
     }
   </style>
+  <!-- QRious JS for QR code generation -->
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 </head>
 <body>
   <nav>
@@ -335,27 +375,23 @@
     <button id="btn-register" type="button" aria-pressed="false">Inscription</button>
   </nav>
 
-  <main role="main" aria-live="polite" aria-atomic="true" aria-relevant="additions removals">
+  <main aria-live="polite" aria-atomic="true" aria-relevant="additions removals">
     <section id="home" class="active" aria-label="Page d'accueil">
       <h1>Bienvenue sur le Site Matrimonial</h1>
       <p>Nous offrons une plateforme sûre et efficace pour vous aider à trouver votre partenaire idéal.</p>
       <p><strong>Services proposés :</strong></p>
       <ul>
         <li>Inscription personnalisée</li>
-        <li>Validation sécurisée du paiement</li>
         <li>Confirmation rapide de votre inscription</li>
         <li>Contact facilité via WhatsApp</li>
       </ul>
     </section>
 
-    <section id="register" aria-label="Formulaire d'inscription">
+    <section id="register" aria-label="Formulaire d'inscription" style="display:none;">
       <h2>Formulaire d'inscription</h2>
       <form id="registrationForm" novalidate>
         <label for="nom">Nom complet *</label>
         <input type="text" id="nom" name="nom" placeholder="Ex: Jean Dupont" required autocomplete="name" />
-
-        <label for="email">Email *</label>
-        <input type="email" id="email" name="email" placeholder="exemple@mail.com" required autocomplete="email" />
 
         <label for="age">Âge *</label>
         <input type="number" id="age" name="age" min="18" max="120" placeholder="18+" required />
@@ -371,108 +407,163 @@
         <label for="ville">Ville *</label>
         <input type="text" id="ville" name="ville" placeholder="Ex: Paris" required autocomplete="address-level2" />
 
+        <label for="photo">Photo (JPG/PNG) :</label>
+        <input type="file" id="photo" name="photo" accept="image/png, image/jpeg" />
+        <img id="photoPreview" alt="Aperçu de la photo" style="max-width:120px; margin-bottom:20px; border-radius:10px; display:none; box-shadow: 0 0 8px #66baff88;" />
+
         <p id="formMsg" aria-live="polite"></p>
 
         <button type="submit" aria-label="Valider l'inscription">Valider l'inscription</button>
       </form>
     </section>
 
-    <section id="payment" aria-label="Validation du paiement" >
-      <h2>Validation du paiement</h2>
-      <p>Le montant de l'inscription est de <strong>50 €</strong>.</p>
-      <button id="payBtn" type="button" aria-label="Simuler paiement">Simuler paiement</button>
-      <p id="payMsg" aria-live="polite"></p>
+    <section id="recap" aria-label="Récapitulatif inscription" style="display:none; justify-content: center;">
+      <div id="card">
+        <img id="clientPhoto" alt="Photo du client" />
+        <div id="infoContainer">
+          <h3 style="margin-bottom: 8px; font-size: 22px; font-weight: 900;">Carte Identité Matrimoniale</h3>
+          <p><strong>Nom :</strong> <span id="nomValue"></span></p>
+          <p><strong>Âge :</strong> <span id="ageValue"></span> ans</p>
+          <p><strong>Genre :</strong> <span id="genreValue"></span></p>
+          <p><strong>Ville :</strong> <span id="villeValue"></span></p>
+        </div>
+        <img id="flagImg" alt="Drapeau pays" />
+        <div id="agencyLogo">Agence Matrimoniale</div>
+        <canvas id="qr-code"></canvas>
+      </div>
     </section>
 
-    <section id="confirmation" aria-label="Confirmation inscription">
-      <h2>Confirmation</h2>
-      <p class="success">Votre inscription est validée avec succès !</p>
-      <button id="sendWhatsBtn" type="button" aria-label="Envoyer les informations sur WhatsApp">Envoyer infos sur WhatsApp</button>
-    </section>
+    <button id="sendWhatsBtn" type="button" aria-label="Envoyer les informations sur WhatsApp" style="margin: 20px auto 0; padding: 12px 40px; font-size: 1.15rem; border-radius: 40px; border: none; cursor: pointer; background: #4a90ff; color: white; box-shadow: 0 4px 14px #5fb0ff; display:none;">Envoyer infos sur WhatsApp</button>
   </main>
 
   <script>
-    const sections = ['home', 'register', 'payment', 'confirmation'];
+    // Codes ISO pays pour drapeaux
+    const countryCodes = {
+      "France": "FR",
+      "Homme": "FR", "Femme": "FR", "Autre": "FR" // Par défaut FR (modifie si tu ajoutes un vrai champ pays)
+    };
+
     const btnHome = document.getElementById('btn-home');
     const btnRegister = document.getElementById('btn-register');
+    const sectionHome = document.getElementById('home');
+    const sectionRegister = document.getElementById('register');
+    const sectionRecap = document.getElementById('recap');
+    const sendWhatsBtn = document.getElementById('sendWhatsBtn');
+    const form = document.getElementById('registrationForm');
+    const formMsg = document.getElementById('formMsg');
+
+    const clientPhoto = document.getElementById('clientPhoto');
+    const flagImg = document.getElementById('flagImg');
+    const nomValue = document.getElementById('nomValue');
+    const ageValue = document.getElementById('ageValue');
+    const genreValue = document.getElementById('genreValue');
+    const villeValue = document.getElementById('villeValue');
+
     let formData = {};
 
-    // Navigation & UI
-    function showSection(id) {
-      sections.forEach(sec => {
-        const el = document.getElementById(sec);
-        el.classList.toggle('active', sec === id);
-      });
+    function showSection(id){
+      sectionHome.style.display = 'none';
+      sectionRegister.style.display = 'none';
+      sectionRecap.style.display = 'none';
+      sendWhatsBtn.style.display = 'none';
 
-      btnHome.classList.toggle('active', id === 'home');
-      btnRegister.classList.toggle('active', id === 'register');
+      btnHome.classList.remove('active');
+      btnRegister.classList.remove('active');
 
-      btnHome.setAttribute('aria-pressed', id === 'home' ? 'true' : 'false');
-      btnRegister.setAttribute('aria-pressed', id === 'register' ? 'true' : 'false');
-
-      // Clear messages
-      document.getElementById('formMsg').textContent = '';
-      document.getElementById('payMsg').textContent = '';
+      if(id === 'home'){
+        sectionHome.style.display = 'block';
+        btnHome.classList.add('active');
+      } else if(id === 'register'){
+        sectionRegister.style.display = 'block';
+        btnRegister.classList.add('active');
+      } else if(id === 'recap'){
+        sectionRecap.style.display = 'flex';
+        sendWhatsBtn.style.display = 'block';
+      }
     }
 
     btnHome.addEventListener('click', () => showSection('home'));
     btnRegister.addEventListener('click', () => showSection('register'));
 
-    // Form handling
-    const form = document.getElementById('registrationForm');
-    const formMsg = document.getElementById('formMsg');
-    const payMsg = document.getElementById('payMsg');
+    // Visualisation photo dans formulaire + stockage base64
+    document.getElementById('photo').addEventListener('change', function(){
+      const file = this.files[0];
+      const photoPreview = document.getElementById('photoPreview');
+      if(file && (file.type === 'image/jpeg' || file.type === 'image/png')){
+        const reader = new FileReader();
+        reader.onload = e => {
+          formData.photoBase64 = e.target.result;
+          photoPreview.src = e.target.result;
+          photoPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        formData.photoBase64 = null;
+        photoPreview.style.display = 'none';
+        photoPreview.src = '';
+      }
+    });
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', e => {
       e.preventDefault();
+      const nom = form.nom.value.trim();
+      const age = Number(form.age.value);
+      const genre = form.genre.value;
+      const ville = form.ville.value.trim();
 
-      // Collect & validate manually for extra control
-      const nom = this.nom.value.trim();
-      const email = this.email.value.trim();
-      const age = Number(this.age.value);
-      const genre = this.genre.value;
-      const ville = this.ville.value.trim();
-
-      if(!nom || !email || !age || !genre || !ville) {
+      if(!nom || !age || !genre || !ville){
         formMsg.textContent = "Tous les champs marqués par * sont obligatoires.";
         return;
       }
-      if(age < 18 || age > 120) {
+      if(age < 18 || age > 120){
         formMsg.textContent = "L'âge doit être compris entre 18 et 120 ans.";
-        return;
-      }
-      // Email pattern simple check
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailRegex.test(email)) {
-        formMsg.textContent = "Veuillez saisir une adresse email valide.";
         return;
       }
 
       formMsg.textContent = "";
 
-      formData = {nom, email, age, genre, ville};
+      formData.nom = nom;
+      formData.age = age;
+      formData.genre = genre;
+      formData.ville = ville;
+      formData.pays = "France"; // Modifie si tu ajoutes un champ pays
 
-      showSection('payment');
+      updateCard();
+      showSection('recap');
     });
 
-    // Payment simulation
-    document.getElementById('payBtn').addEventListener('click', () => {
-      payMsg.textContent = "Paiement accepté avec succès ! ✅";
-      payMsg.style.color = '#62d68a';
+    function updateCard(){
+      nomValue.textContent = formData.nom;
+      ageValue.textContent = formData.age;
+      genreValue.textContent = formData.genre;
+      villeValue.textContent = formData.ville;
 
-      // Disable button to avoid re-click
-      document.getElementById('payBtn').disabled = true;
+      // Photo client
+      if(formData.photoBase64){
+        clientPhoto.src = formData.photoBase64;
+        clientPhoto.style.display = 'block';
+      } else {
+        clientPhoto.style.display = 'none';
+      }
 
-      setTimeout(() => {
-        showSection('confirmation');
-        // reset payment button
-        document.getElementById('payBtn').disabled = false;
-        payMsg.textContent = '';
-      }, 1800);
-    });
+      // Drapeau pays
+      const code = countryCodes[formData.pays] || "FR";
+      flagImg.src = `https://countryflagsapi.com/png/${code}`;
+      flagImg.alt = `Drapeau de ${formData.pays}`;
 
-    // WhatsApp send info
-    document.getElementById('sendWhatsBtn').addEventListener('click', () => {
+      // QR code avec les infos
+      const qrText = `Nom: ${formData.nom}\nÂge: ${formData.age}\nGenre: ${formData.genre}\nVille: ${formData.ville}\nPays: ${formData.pays}`;
+      new QRious({
+        element: document.getElementById('qr-code'),
+        size: 80,
+        value: qrText,
+        background: 'white',
+        foreground: '#1552db',
+        level: 'H'
+      });
+    }
+
+    sendWhatsBtn.addEventListener('click', () => {
       if(!formData.nom){
         alert("Veuillez d'abord compléter et valider le formulaire.");
         showSection('register');
@@ -481,19 +572,17 @@
       const text =
         `Bonjour,%0AVoici mes informations pour l'inscription:%0A` +
         `Nom: ${encodeURIComponent(formData.nom)}%0A` +
-        `Email: ${encodeURIComponent(formData.email)}%0A` +
         `Âge: ${encodeURIComponent(formData.age)}%0A` +
         `Genre: ${encodeURIComponent(formData.genre)}%0A` +
-        `Ville: ${encodeURIComponent(formData.ville)}`;
+        `Ville: ${encodeURIComponent(formData.ville)}%0A` +
+        `Pays: ${encodeURIComponent(formData.pays)}`;
 
-      // Remplace avec ton numéro WhatsApp (code pays, sans +, sans espaces)
-      const myNumber = "+237652485475";  // ex: "33612345678" pour France
+      const myNumber = "237652485475";
 
       const waUrl = `https://wa.me/${myNumber}?text=${text}`;
       window.open(waUrl, '_blank', 'noopener,noreferrer');
     });
 
-    // On load, display home
     showSection('home');
   </script>
 </body>
